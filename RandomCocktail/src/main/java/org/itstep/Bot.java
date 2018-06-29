@@ -5,33 +5,37 @@ import org.telegram.telegrambots.api.objects.Update;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class Bot extends TelegramLongPollingBot {
     GenerateCocktail generateCocktail = new GenerateCocktail();
-    String[] array = {};
+
     public void onUpdateReceived(Update update) {
 
         //System.out.println(update.getMessage().getFrom().getFirstName() + ": " + update.getMessage().getText());
         Messages messages = new Messages();
 
-
+        String text = update.getMessage().getText();
         //Send message
         //SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
         //sendMessage.setText("Привет " + update.getMessage().getFrom().getFirstName() + "\n" + update.getMessage().getText());
-        if((update.getMessage().getText().equals("/help"))){
+        if((update.getMessage().getText().equals("/help")) || (update.getMessage().getText().equals("/help@randomcoctailbot"))){
             try {
                 sendMessage(messages.help(update));
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
         }
-        if (update.getMessage().getText().contains("напитки:")){
+        if (text.contains("напитки:")){
             String beverages = update.getMessage().getText();
             generateCocktail.setBeverages(beverages);
             generateCocktail.arrayOfBeverages();
+            try {
+                sendMessage(messages.accept(update));
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+
         }/*else {
             try {
                 sendMessage(messages.syntaxErr(update));
@@ -39,7 +43,7 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         }*/
-        if ((update.getMessage().getText().equals("/generate"))){
+        if ((update.getMessage().getText().equals("/generate")) || (update.getMessage().getText().equals("/generate@randomcoctailbot"))){
             try {
                 sendMessage(messages.generatedCocktail(update,generateCocktail.generatedCocktail()));
             } catch (TelegramApiException e) {

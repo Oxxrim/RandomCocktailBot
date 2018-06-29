@@ -8,7 +8,7 @@ public class Messages {
 
     public SendMessage help(Update update){
         SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
-        sendMessage.setText("Привет " + update.getMessage().getFrom().getFirstName() + "\n" + "Введи 'напитки:' после ':' перечисли напитки через ','" + "\n" + "Для генерации своего напитка введи '/generate'");
+        sendMessage.setText("Привет " + update.getMessage().getFrom().getFirstName() + "\n" + "Ответь мне и в сообщение введи 'напитки:' после ':' перечисли напитки через ','" + "\n" + "Для генерации своего напитка введи '/generate'");
         return sendMessage;
     }
 
@@ -27,5 +27,11 @@ public class Messages {
             sendMessage.setText("Ты счастливчик, ты пропускаешь !!!");
             return sendMessage;
         }
+    }
+
+    public SendMessage accept(Update update){
+        SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());
+        sendMessage.setText("Напитки приняты!!!");
+        return sendMessage;
     }
 }
